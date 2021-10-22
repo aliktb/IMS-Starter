@@ -7,7 +7,7 @@ import com.qa.ims.persistence.dao.OrderItemDAO;
 import com.qa.ims.persistence.domain.OrderItem;
 import com.qa.ims.utils.Utils;
 
-public class OrderItemController implements CrudController<OrderItem> {
+public class OrderItemController {
 
 
 
@@ -25,7 +25,6 @@ public class OrderItemController implements CrudController<OrderItem> {
 
   }
 
-  @Override
   public List<OrderItem> readAll() {
     List<OrderItem> orderItems = orderItemDAO.readAll();
     for (OrderItem orderItem : orderItems) {
@@ -34,7 +33,6 @@ public class OrderItemController implements CrudController<OrderItem> {
     return orderItems;
   }
 
-  @Override
   public OrderItem create() {
 
     LOGGER.info("Please enter the customer id");
@@ -85,15 +83,20 @@ public class OrderItemController implements CrudController<OrderItem> {
 
   }
 
-  @Override
-  public OrderItem update() {
-    // TODO Auto-generated method stub
-    return null;
+  public OrderItem update(Long orderId) {
+    Long customerId = 1L;
+    Long orderItemsId = 1L;
+    Long itemId = 1L;
+    OrderItem orderItem =
+        orderItemDAO.update(new OrderItem(orderItemsId, customerId, orderId, itemId));
+    LOGGER.info("Item Updated");
+    return orderItem;
+
   }
 
-  @Override
   public int delete() {
-    // TODO Auto-generated method stub
-    return 0;
+    LOGGER.info("Please enter the id of the order_item you would like to delete");
+    Long id = utils.getLong();
+    return orderItemDAO.delete(id);
   }
 }

@@ -63,7 +63,6 @@ public class IMS {
           active = this.items;
           break;
         case ORDER:
-          active = this.orderItems;
           break;
         case STOP:
           return;
