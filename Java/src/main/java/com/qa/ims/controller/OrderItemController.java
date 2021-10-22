@@ -10,10 +10,20 @@ import com.qa.ims.utils.Utils;
 public class OrderItemController implements CrudController<OrderItem> {
 
 
+
   public static final Logger LOGGER = LogManager.getLogger();
 
   private OrderItemDAO orderItemDAO;
   private Utils utils;
+
+
+  public OrderItemController(OrderItemDAO orderItemDAO, Utils utils) {
+
+    super();
+    this.orderItemDAO = orderItemDAO;
+    this.utils = utils;
+
+  }
 
   @Override
   public List<OrderItem> readAll() {
@@ -28,15 +38,20 @@ public class OrderItemController implements CrudController<OrderItem> {
     Long customerId = utils.getLong();
     LOGGER.info("Please enter an item id");
     Long itemId = utils.getLong();
-    Long orderId = orderItemDAO.readLatest().getOrderId() + 1;
-    OrderItem orderItem = orderItemDAO.create(new OrderItem(orderId, customerId, itemId));
-    LOGGER.info("Item added. Would you like to add another item?");
+    Long orderId = 1L;
+    try {
+      orderId = orderItemDAO.readLatest().getOrderId() + 1;
+    } catch (NullPointerException e) {
+      orderId = 1L;
+    }
 
+    OrderItem orderItem = orderItemDAO.create(new OrderItem(orderId, customerId, itemId));
+    LOGGER.info("Item added. Would you like to add another item?  (yes)(no)");
     String response = utils.getString().toLowerCase();
 
-    if (response.equals("yes")) {
+    if (response.equals("yes") || response.equals("y")) {
       addToOrder(orderId, customerId);
-    } else if (response.equals("no")) {
+    } else if (response.equals("no") || response.equals("n")) {
       LOGGER.info("All items added.");
       return orderItem;
     } else {
@@ -51,12 +66,12 @@ public class OrderItemController implements CrudController<OrderItem> {
     LOGGER.info("Please enter an item id");
     Long itemId = utils.getLong();
     OrderItem orderItem = orderItemDAO.create(new OrderItem(orderId, customerId, itemId));
-    LOGGER.info("Item added. Would you like to add another item?");
+    LOGGER.info("Item added. Would you like to add another item?  (yes)(no)");
     String response = utils.getString().toLowerCase();
 
-    if (response.equals("yes")) {
+    if (response.equals("yes") || response.equals("y")) {
       addToOrder(orderId, customerId);
-    } else if (response.equals("no")) {
+    } else if (response.equals("no") || response.equals("n")) {
       LOGGER.info("All items added.");
       return orderItem;
     } else {

@@ -70,8 +70,14 @@ public class OrderItemDAO implements Dao<OrderItem> {
       resultSet.next();
       return modelFromResultSet(resultSet);
     } catch (Exception e) {
-      LOGGER.debug(e);
-      LOGGER.error(e.getMessage());
+      if (e.getMessage().equals("Illegal operation on empty result set.")) {
+
+        LOGGER.info("This is the first order");
+
+      } else {
+        LOGGER.debug(e);
+        LOGGER.error(e.getMessage());
+      }
     }
     return null;
 
