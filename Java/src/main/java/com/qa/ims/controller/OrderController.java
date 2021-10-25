@@ -3,38 +3,31 @@ package com.qa.ims.controller;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import com.qa.ims.persistence.dao.OrderDAO;
 import com.qa.ims.persistence.dao.OrderItemDAO;
+import com.qa.ims.persistence.domain.Order;
 import com.qa.ims.persistence.domain.OrderItem;
 import com.qa.ims.utils.Utils;
 
-public class OrderItemController implements CrudController<OrderItem> {
-
-
+public class OrderController implements CrudController<Order> {
 
   public static final Logger LOGGER = LogManager.getLogger();
 
+  private OrderDAO orderDAO;
   private OrderItemDAO orderItemDAO;
   private Utils utils;
 
 
-  public OrderItemController(OrderItemDAO orderItemDAO, Utils utils) {
-
+  public OrderController(OrderDAO orderDAO, OrderItemDAO orderItemDAO, Utils utils) {
     super();
-    this.orderItemDAO = orderItemDAO;
+    this.orderDAO = orderDAO;
     this.utils = utils;
-
+    this.orderItemDAO = orderItemDAO;
   }
 
-  public List<OrderItem> readAll() {
-    List<OrderItem> orderItems = orderItemDAO.readAll();
-    for (OrderItem orderItem : orderItems) {
-      LOGGER.info(orderItem);
-    }
-    return orderItems;
-  }
 
-  public OrderItem create() {
-
+  @Override
+  public Order create() {
 
     LOGGER.info("Please enter the customer id");
     Long customerId = utils.getLong();
@@ -48,28 +41,38 @@ public class OrderItemController implements CrudController<OrderItem> {
       orderId = 1L;
     }
 
-    OrderItem orderItem = orderItemDAO.create(new OrderItem(orderId, customerId, itemId));
+    orderItemDAO.create(new OrderItem(orderId, customerId, itemId));
+    Order newOrder = orderDAO.create(new Order(orderId, customerId, null));
     LOGGER.info("Item added. Would you like to add another item?  (yes)(no)");
     String response = utils.getString().toLowerCase();
+
+
 
     if (response.equals("yes") || response.equals("y")) {
       addToOrder(orderId, customerId);
     } else if (response.equals("no") || response.equals("n")) {
       LOGGER.info("All items added.");
-      return orderItem;
+      return newOrder;
     } else {
       LOGGER.info("No more items have been added");
     }
 
-    return orderItem;
+    return newOrder;
+
   }
 
-  public OrderItem addToOrder(Long orderId, Long customerId) {
+
+
+  public Order addToOrder(Long orderId, Long customerId) {
 
     LOGGER.info("Please enter an item id");
     Long itemId = utils.getLong();
-    OrderItem orderItem = orderItemDAO.create(new OrderItem(orderId, customerId, itemId));
+    orderItemDAO.create(new OrderItem(orderId, customerId, itemId));
 
+    // update order entry
+    orderDAO.delete(orderId);
+    Order newOrder = new Order(orderId, customerId, null);
+    orderDAO.create(newOrder);
     LOGGER.info("Item added. Would you like to add another item?  (yes)(no)");
     String response = utils.getString().toLowerCase();
 
@@ -77,35 +80,37 @@ public class OrderItemController implements CrudController<OrderItem> {
       addToOrder(orderId, customerId);
     } else if (response.equals("no") || response.equals("n")) {
       LOGGER.info("All items added.");
-      return orderItem;
+      return newOrder;
     } else {
       LOGGER.info("No more items have been added");
     }
 
-    return orderItem;
+    return newOrder;
 
   }
 
-  public OrderItem update(Long orderId) {
-    Long customerId = 1L;
-    Long orderItemsId = 1L;
-    Long itemId = 1L;
-    OrderItem orderItem =
-        orderItemDAO.update(new OrderItem(orderItemsId, customerId, orderId, itemId));
-    LOGGER.info("Item Updated");
-    return orderItem;
 
-  }
-
-  public int delete() {
-    LOGGER.info("Please enter the id of the order_item you would like to delete");
-    Long id = utils.getLong();
-    return orderItemDAO.delete(id);
+  @Override
+  public List<Order> readAll() {
+    List<Order> orders = orderDAO.readAll();
+    for (Order order : orders) {
+      LOGGER.info(order);
+    }
+    return orders;
   }
 
   @Override
-  public OrderItem update() {
+  public Order update() {
     // TODO Auto-generated method stub
     return null;
   }
+
+  @Override
+  public int delete() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+
+
 }

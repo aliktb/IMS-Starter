@@ -31,11 +31,11 @@ public class ItemControllerTest {
   @Test
   public void testCreate() {
     final String ITEM_NAME = "Drill";
-    final Long ITEM_VALUE = 30L;
+    final Double ITEM_VALUE = 30d;
     final Item created = new Item(ITEM_NAME, ITEM_VALUE);
 
     Mockito.when(utils.getString()).thenReturn(ITEM_NAME);
-    Mockito.when(utils.getLong()).thenReturn(ITEM_VALUE);
+    Mockito.when(utils.getDouble()).thenReturn(ITEM_VALUE);
     Mockito.when(dao.create(created)).thenReturn(created);
 
     assertEquals(created, controller.create());
@@ -48,7 +48,7 @@ public class ItemControllerTest {
   @Test
   public void testReadAll() {
     List<Item> items = new ArrayList<>();
-    items.add(new Item(1L, "hammer", 8L));
+    items.add(new Item(1L, "hammer", 8d));
 
     Mockito.when(dao.readAll()).thenReturn(items);
 
@@ -59,7 +59,7 @@ public class ItemControllerTest {
 
   @Test
   public void testUpdate() {
-    Item updated = new Item(1L, "Paint Brush", 4L);
+    Item updated = new Item(1L, "Paint Brush", 4d);
 
     Mockito.when(this.utils.getLong()).thenReturn(1L, 4L);
     Mockito.when(this.utils.getString()).thenReturn(updated.getItemName());

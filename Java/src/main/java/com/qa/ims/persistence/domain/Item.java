@@ -6,18 +6,18 @@ public class Item {
 
   private Long id;
   private String itemName;
-  private Long itemValue;
+  private Double itemValue;
 
 
 
-  public Item(String itemName, Long itemValue) {
+  public Item(String itemName, Double itemValue) {
     super();
     this.itemName = itemName;
     this.itemValue = itemValue;
   }
 
 
-  public Item(Long id, String itemName, Long itemValue) {
+  public Item(Long id, String itemName, Double itemValue) {
     super();
     this.id = id;
     this.itemName = itemName;
@@ -45,12 +45,12 @@ public class Item {
   }
 
 
-  public Long getItemValue() {
+  public Double getItemValue() {
     return itemValue;
   }
 
 
-  public void setItemValue(Long itemValue) {
+  public void setItemValue(Double itemValue) {
     this.itemValue = itemValue;
   }
 

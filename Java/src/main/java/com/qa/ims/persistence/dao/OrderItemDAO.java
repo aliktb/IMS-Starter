@@ -23,7 +23,6 @@ public class OrderItemDAO implements Dao<OrderItem> {
     Long orderId = resultSet.getLong("order_id");
     Long customerId = resultSet.getLong("customer_id");
     Long itemId = resultSet.getLong("item_id");
-
     return new OrderItem(orderItemsId, orderId, customerId, itemId);
 
   }
@@ -98,7 +97,7 @@ public class OrderItemDAO implements Dao<OrderItem> {
     } catch (Exception e) {
       if (e.getMessage().equals("Illegal operation on empty result set.")) {
 
-        LOGGER.info("This is the first order");
+        LOGGER.info("This is the first order in the store!");
 
       } else {
         LOGGER.debug(e);
