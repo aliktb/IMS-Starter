@@ -131,13 +131,13 @@ public class OrderController implements CrudController<Order> {
     Long customerId = utils.getLong();
     LOGGER.info("What is the ID of the order you would like to update?");
     Long orderId = utils.getLong();
-    LOGGER.info("Would you like to add or remove an item from an order?");
+    LOGGER.info("Would you like to add or remove an item from an order? [add][remove]");
     String response = utils.getString().toLowerCase();
-    if (response.equals("add")) {
+    if (response.equals("add") || response.equals("a")) {
 
       addToOrder(orderId, customerId);
 
-    } else if (response.equals("remove")) {
+    } else if (response.equals("remove") || response.equals("r")) {
 
       removeFromOrder(orderId, customerId);
     }
