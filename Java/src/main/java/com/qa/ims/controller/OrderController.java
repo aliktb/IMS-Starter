@@ -34,9 +34,9 @@ public class OrderController implements CrudController<Order> {
   @Override
   public Order create() {
 
-    LOGGER.info("Please enter the customer id");
+    LOGGER.info("Please enter the customer id:");
     Long customerId = utils.getLong();
-    LOGGER.info("Please enter an item id");
+    LOGGER.info("Please enter an item id:");
     Long itemId = utils.getLong();
     Long orderId;
 
@@ -48,7 +48,7 @@ public class OrderController implements CrudController<Order> {
 
     orderItemDAO.create(new OrderItem(orderId, customerId, itemId));
     Order newOrder = orderDAO.create(new Order(orderId, customerId, null));
-    LOGGER.info("Item added. Would you like to add another item?  (yes)(no)");
+    LOGGER.info("Item added. Would you like to add another item?  [yes][no]");
     String response = utils.getString().toLowerCase();
 
 
@@ -78,7 +78,7 @@ public class OrderController implements CrudController<Order> {
     orderDAO.delete(orderId);
     Order newOrder = new Order(orderId, customerId, null);
     orderDAO.create(newOrder);
-    LOGGER.info("Item added. Would you like to add another item?  (yes)(no)");
+    LOGGER.info("Item added. Would you like to add another item?  [yes][no]");
     String response = utils.getString().toLowerCase();
 
     if (response.equals("yes") || response.equals("y")) {
@@ -96,7 +96,7 @@ public class OrderController implements CrudController<Order> {
 
   public Order removeFromOrder(Long orderId, Long customerId) {
 
-    LOGGER.info("Please enter the ID of the item you would like to remove");
+    LOGGER.info("Please enter the ID of the item you would like to remove:");
     Long itemId = utils.getLong();
     orderItemDAO.deleteOneEntry(orderId, itemId);
 
@@ -105,7 +105,7 @@ public class OrderController implements CrudController<Order> {
     orderDAO.delete(orderId);
     Order newOrder = new Order(orderId, customerId, null);
     orderDAO.create(newOrder);
-    LOGGER.info("Item removed. Would you like to remove another? (yes)(no)");
+    LOGGER.info("Item removed. Would you like to remove another? [yes][no]");
     String response = utils.getString().toLowerCase();
 
     if (response.equals("yes") || response.equals("y")) {
@@ -153,7 +153,7 @@ public class OrderController implements CrudController<Order> {
 
   @Override
   public Order update() {
-    LOGGER.info("Please type in the customer ID that the order relates to");
+    LOGGER.info("Please type in the customer ID that the order relates to:");
     Long customerId = utils.getLong();
     LOGGER.info("What is the ID of the order you would like to update?");
     Long orderId = utils.getLong();
@@ -173,7 +173,7 @@ public class OrderController implements CrudController<Order> {
 
   @Override
   public int delete() {
-    LOGGER.info("Please enter the id of the order you would like to delete");
+    LOGGER.info("Please enter the id of the order you would like to delete:");
     Long order_id = utils.getLong();
     orderItemDAO.delete(order_id);
     return orderDAO.delete(order_id);

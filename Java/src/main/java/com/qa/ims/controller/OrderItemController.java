@@ -49,7 +49,7 @@ public class OrderItemController implements CrudController<OrderItem> {
     }
 
     OrderItem orderItem = orderItemDAO.create(new OrderItem(orderId, customerId, itemId));
-    LOGGER.info("Item added. Would you like to add another item?  (yes)(no)");
+    LOGGER.info("Item added. Would you like to add another item?  [yes][no]");
     String response = utils.getString().toLowerCase();
 
     if (response.equals("yes") || response.equals("y")) {
@@ -70,7 +70,7 @@ public class OrderItemController implements CrudController<OrderItem> {
     Long itemId = utils.getLong();
     OrderItem orderItem = orderItemDAO.create(new OrderItem(orderId, customerId, itemId));
 
-    LOGGER.info("Item added. Would you like to add another item?  (yes)(no)");
+    LOGGER.info("Item added. Would you like to add another item?  [yes][no]");
     String response = utils.getString().toLowerCase();
 
     if (response.equals("yes") || response.equals("y")) {
