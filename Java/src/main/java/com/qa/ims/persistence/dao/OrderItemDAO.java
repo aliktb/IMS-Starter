@@ -127,11 +127,27 @@ public class OrderItemDAO implements Dao<OrderItem> {
     return null;
   }
 
+
+
+  public int deleteOneEntry(Long order_id, Long item_id) {
+    try (Connection connection = DBUtils.getInstance().getConnection();
+        PreparedStatement statement = connection.prepareStatement(
+            "DELETE FROM order_items WHERE order_id = ? AND item_id = ? LIMIT 1");) {
+      statement.setLong(1, order_id);
+      statement.setLong(2, item_id);
+      return statement.executeUpdate();
+    } catch (Exception e) {
+      LOGGER.debug(e);
+      LOGGER.error(e.getMessage());
+    }
+    return 0;
+  }
+
   @Override
   public int delete(long id) {
     try (Connection connection = DBUtils.getInstance().getConnection();
         PreparedStatement statement =
-            connection.prepareStatement("DELETE FROM order_items WHERE id = ?");) {
+            connection.prepareStatement("DELETE FROM order_items WHERE order_id = ?");) {
       statement.setLong(1, id);
       return statement.executeUpdate();
     } catch (Exception e) {

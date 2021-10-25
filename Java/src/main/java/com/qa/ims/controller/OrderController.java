@@ -69,7 +69,7 @@ public class OrderController implements CrudController<Order> {
     Long itemId = utils.getLong();
     orderItemDAO.create(new OrderItem(orderId, customerId, itemId));
 
-    // update order entry
+    // update order table entry
     orderDAO.delete(orderId);
     Order newOrder = new Order(orderId, customerId, null);
     orderDAO.create(newOrder);
@@ -89,6 +89,32 @@ public class OrderController implements CrudController<Order> {
 
   }
 
+  public Order removeFromOrder(Long orderId, Long customerId) {
+
+    LOGGER.info("Please enter the ID of the item you would like to remove");
+    Long itemId = utils.getLong();
+    orderItemDAO.deleteOneEntry(orderId, itemId);
+
+    // Update order table entry
+
+    orderDAO.delete(orderId);
+    Order newOrder = new Order(orderId, customerId, null);
+    orderDAO.create(newOrder);
+    LOGGER.info("Item removed. Would you like to remove another? (yes)(no)");
+    String response = utils.getString().toLowerCase();
+
+    if (response.equals("yes") || response.equals("y")) {
+      removeFromOrder(orderId, customerId);
+    } else if (response.equals("no") || response.equals("n")) {
+      LOGGER.info("Items removed");
+      return newOrder;
+    } else {
+      LOGGER.info("No more items have been removed");
+    }
+
+    return newOrder;
+  }
+
 
   @Override
   public List<Order> readAll() {
@@ -101,14 +127,30 @@ public class OrderController implements CrudController<Order> {
 
   @Override
   public Order update() {
-    // TODO Auto-generated method stub
+    LOGGER.info("Please type in the customer ID that the order relates to");
+    Long customerId = utils.getLong();
+    LOGGER.info("What is the ID of the order you would like to update?");
+    Long orderId = utils.getLong();
+    LOGGER.info("Would you like to add or remove an item from an order?");
+    String response = utils.getString().toLowerCase();
+    if (response.equals("add")) {
+
+      addToOrder(orderId, customerId);
+
+    } else if (response.equals("remove")) {
+
+      removeFromOrder(orderId, customerId);
+    }
+
     return null;
   }
 
   @Override
   public int delete() {
-    // TODO Auto-generated method stub
-    return 0;
+    LOGGER.info("Please enter the id of the order you would like to delete");
+    Long order_id = utils.getLong();
+    orderItemDAO.delete(order_id);
+    return orderDAO.delete(order_id);
   }
 
 
