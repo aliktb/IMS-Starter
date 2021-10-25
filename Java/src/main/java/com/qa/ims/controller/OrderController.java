@@ -1,8 +1,10 @@
 package com.qa.ims.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import com.qa.ims.persistence.dao.ItemDAO;
 import com.qa.ims.persistence.dao.OrderDAO;
 import com.qa.ims.persistence.dao.OrderItemDAO;
 import com.qa.ims.persistence.domain.Order;
@@ -15,14 +17,17 @@ public class OrderController implements CrudController<Order> {
 
   private OrderDAO orderDAO;
   private OrderItemDAO orderItemDAO;
+  private ItemDAO itemDAO;
   private Utils utils;
 
 
-  public OrderController(OrderDAO orderDAO, OrderItemDAO orderItemDAO, Utils utils) {
+  public OrderController(OrderDAO orderDAO, OrderItemDAO orderItemDAO, ItemDAO itemDAO,
+      Utils utils) {
     super();
     this.orderDAO = orderDAO;
     this.utils = utils;
     this.orderItemDAO = orderItemDAO;
+    this.itemDAO = itemDAO;
   }
 
 
@@ -119,8 +124,29 @@ public class OrderController implements CrudController<Order> {
   @Override
   public List<Order> readAll() {
     List<Order> orders = orderDAO.readAll();
+    List<String> listOfItems = new ArrayList<>();
+
     for (Order order : orders) {
+      List<OrderItem> orderItems = orderItemDAO.readFromOrder(order.getOrderId());
+      listOfItems.clear();
+
+      for (OrderItem orderItem : orderItems) {
+
+        String name = itemDAO.read(orderItem.getItemId()).getItemName();
+
+
+        listOfItems.add(name);
+
+
+
+      }
+      LOGGER.info("");
+      LOGGER.info("--------------------------------------------");
       LOGGER.info(order);
+      LOGGER.info("Contents: " + listOfItems);
+      LOGGER.info("--------------------------------------------");
+      LOGGER.info("");
+
     }
     return orders;
   }

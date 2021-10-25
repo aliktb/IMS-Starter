@@ -50,7 +50,7 @@ public class OrderItemDAO implements Dao<OrderItem> {
   public OrderItem read(Long id) {
     try (Connection connection = DBUtils.getInstance().getConnection();
         PreparedStatement statement =
-            connection.prepareStatement("SELECT * FROM order_items WHERE id = ?");) {
+            connection.prepareStatement("SELECT * FROM order_items WHERE order_id = ?");) {
       statement.setLong(1, id);
       try (ResultSet resultSet = statement.executeQuery();) {
         resultSet.next();
@@ -61,8 +61,34 @@ public class OrderItemDAO implements Dao<OrderItem> {
       LOGGER.error(e.getMessage());
     }
     return null;
-
   }
+
+
+  public List<OrderItem> readFromOrder(Long id) {
+    try (Connection connection = DBUtils.getInstance().getConnection();
+        PreparedStatement statement =
+            connection.prepareStatement("SELECT * FROM order_items WHERE order_id = ?");) {
+      statement.setLong(1, id);
+      try (ResultSet resultSet = statement.executeQuery();) {
+        List<OrderItem> orderItems = new ArrayList<>();
+        while (resultSet.next()) {
+          orderItems.add(modelFromResultSet(resultSet));
+        }
+        return orderItems;
+      } catch (SQLException e) {
+
+        LOGGER.debug(e);
+        LOGGER.error(e.getMessage());
+
+      }
+
+    } catch (SQLException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    return new ArrayList<>();
+  }
+
 
   @Override
   public OrderItem create(OrderItem t) {
