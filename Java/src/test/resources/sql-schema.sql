@@ -14,3 +14,13 @@ CREATE TABLE IF NOT EXISTS `items` (
     `item_value` INT(11) DEFAULT NULL,
     PRIMARY KEY (`id`)
 );
+
+CREATE TABLE IF NOT EXISTS `order_items` (
+
+`order_items_id` INT(11) AUTO_INCREMENT NOT NULL,
+`order_id` INT(11) NOT NULL,
+`customer_id` INT(11) NOT NULL,
+`item_id` INT(11) NOT NULL,
+PRIMARY KEY (`order_items_id`)
+
+);

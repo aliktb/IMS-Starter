@@ -50,7 +50,7 @@ public class OrderItemDAO implements Dao<OrderItem> {
   public OrderItem read(Long id) {
     try (Connection connection = DBUtils.getInstance().getConnection();
         PreparedStatement statement =
-            connection.prepareStatement("SELECT * FROM order_items WHERE order_id = ?");) {
+            connection.prepareStatement("SELECT * FROM order_items WHERE order_items_id = ?");) {
       statement.setLong(1, id);
       try (ResultSet resultSet = statement.executeQuery();) {
         resultSet.next();
