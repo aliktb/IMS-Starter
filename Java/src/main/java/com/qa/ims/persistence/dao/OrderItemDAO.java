@@ -23,7 +23,6 @@ public class OrderItemDAO implements Dao<OrderItem> {
     Long orderId = resultSet.getLong("order_id");
     Long customerId = resultSet.getLong("customer_id");
     Long itemId = resultSet.getLong("item_id");
-
     return new OrderItem(orderItemsId, orderId, customerId, itemId);
 
   }
@@ -51,7 +50,7 @@ public class OrderItemDAO implements Dao<OrderItem> {
   public OrderItem read(Long id) {
     try (Connection connection = DBUtils.getInstance().getConnection();
         PreparedStatement statement =
-            connection.prepareStatement("SELECT * FROM order_items WHERE id = ?");) {
+            connection.prepareStatement("SELECT * FROM order_items WHERE order_items_id = ?");) {
       statement.setLong(1, id);
       try (ResultSet resultSet = statement.executeQuery();) {
         resultSet.next();
@@ -62,8 +61,34 @@ public class OrderItemDAO implements Dao<OrderItem> {
       LOGGER.error(e.getMessage());
     }
     return null;
-
   }
+
+
+  public List<OrderItem> readFromOrder(Long id) {
+    try (Connection connection = DBUtils.getInstance().getConnection();
+        PreparedStatement statement =
+            connection.prepareStatement("SELECT * FROM order_items WHERE order_id = ?");) {
+      statement.setLong(1, id);
+      try (ResultSet resultSet = statement.executeQuery();) {
+        List<OrderItem> orderItems = new ArrayList<>();
+        while (resultSet.next()) {
+          orderItems.add(modelFromResultSet(resultSet));
+        }
+        return orderItems;
+      } catch (SQLException e) {
+
+        LOGGER.debug(e);
+        LOGGER.error(e.getMessage());
+
+      }
+
+    } catch (SQLException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    return new ArrayList<>();
+  }
+
 
   @Override
   public OrderItem create(OrderItem t) {
@@ -98,7 +123,7 @@ public class OrderItemDAO implements Dao<OrderItem> {
     } catch (Exception e) {
       if (e.getMessage().equals("Illegal operation on empty result set.")) {
 
-        LOGGER.info("This is the first order");
+        LOGGER.info("This is the first order in the store!");
 
       } else {
         LOGGER.debug(e);
@@ -128,11 +153,27 @@ public class OrderItemDAO implements Dao<OrderItem> {
     return null;
   }
 
+
+
+  public int deleteOneEntry(Long order_id, Long item_id) {
+    try (Connection connection = DBUtils.getInstance().getConnection();
+        PreparedStatement statement = connection.prepareStatement(
+            "DELETE FROM order_items WHERE order_id = ? AND item_id = ? LIMIT 1");) {
+      statement.setLong(1, order_id);
+      statement.setLong(2, item_id);
+      return statement.executeUpdate();
+    } catch (Exception e) {
+      LOGGER.debug(e);
+      LOGGER.error(e.getMessage());
+    }
+    return 0;
+  }
+
   @Override
   public int delete(long id) {
     try (Connection connection = DBUtils.getInstance().getConnection();
         PreparedStatement statement =
-            connection.prepareStatement("DELETE FROM order_items WHERE id = ?");) {
+            connection.prepareStatement("DELETE FROM order_items WHERE order_id = ?");) {
       statement.setLong(1, id);
       return statement.executeUpdate();
     } catch (Exception e) {

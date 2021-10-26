@@ -7,7 +7,7 @@ import com.qa.ims.persistence.dao.OrderItemDAO;
 import com.qa.ims.persistence.domain.OrderItem;
 import com.qa.ims.utils.Utils;
 
-public class OrderItemController {
+public class OrderItemController implements CrudController<OrderItem> {
 
 
 
@@ -35,11 +35,13 @@ public class OrderItemController {
 
   public OrderItem create() {
 
+
     LOGGER.info("Please enter the customer id");
     Long customerId = utils.getLong();
     LOGGER.info("Please enter an item id");
     Long itemId = utils.getLong();
-    Long orderId = 1L;
+    Long orderId;
+
     try {
       orderId = orderItemDAO.readLatest().getOrderId() + 1;
     } catch (NullPointerException e) {
@@ -47,7 +49,7 @@ public class OrderItemController {
     }
 
     OrderItem orderItem = orderItemDAO.create(new OrderItem(orderId, customerId, itemId));
-    LOGGER.info("Item added. Would you like to add another item?  (yes)(no)");
+    LOGGER.info("Item added. Would you like to add another item?  [yes][no]");
     String response = utils.getString().toLowerCase();
 
     if (response.equals("yes") || response.equals("y")) {
@@ -67,7 +69,8 @@ public class OrderItemController {
     LOGGER.info("Please enter an item id");
     Long itemId = utils.getLong();
     OrderItem orderItem = orderItemDAO.create(new OrderItem(orderId, customerId, itemId));
-    LOGGER.info("Item added. Would you like to add another item?  (yes)(no)");
+
+    LOGGER.info("Item added. Would you like to add another item?  [yes][no]");
     String response = utils.getString().toLowerCase();
 
     if (response.equals("yes") || response.equals("y")) {
@@ -98,5 +101,11 @@ public class OrderItemController {
     LOGGER.info("Please enter the id of the order_item you would like to delete");
     Long id = utils.getLong();
     return orderItemDAO.delete(id);
+  }
+
+  @Override
+  public OrderItem update() {
+    // TODO Auto-generated method stub
+    return null;
   }
 }
