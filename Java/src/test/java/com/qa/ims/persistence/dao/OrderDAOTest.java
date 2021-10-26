@@ -38,7 +38,7 @@ public class OrderDAOTest {
   public void testRead() {
 
     final Long ID = 1L;
-    assertEquals(new Order(ID, 1L, 1.5d), orderDAO.read(ID));
+    assertEquals(new Order(ID, 1L, 1d), orderDAO.read(ID));
 
   }
 
