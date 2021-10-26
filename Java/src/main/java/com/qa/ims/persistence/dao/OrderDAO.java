@@ -37,7 +37,18 @@ public class OrderDAO implements Dao<Order> {
 
   @Override
   public Order read(Long id) {
-    // TODO Auto-generated method stub
+    try (Connection connection = DBUtils.getInstance().getConnection();
+        PreparedStatement statement =
+            connection.prepareStatement("SELECT * FROM orders WHERE order_id = ?");) {
+      statement.setLong(1, id);
+      try (ResultSet resultSet = statement.executeQuery();) {
+        resultSet.next();
+        return modelFromResultSet(resultSet);
+      }
+    } catch (Exception e) {
+      LOGGER.debug(e);
+      LOGGER.error(e.getMessage());
+    }
     return null;
   }
 
@@ -83,10 +94,7 @@ public class OrderDAO implements Dao<Order> {
 
     } catch (Exception e) {
 
-
     }
-
-
 
     return null;
   }
@@ -95,9 +103,9 @@ public class OrderDAO implements Dao<Order> {
   public Order update(Order t) {
     try (Connection connection = DBUtils.getInstance().getConnection();
         PreparedStatement statement = connection
-            .prepareStatement("UPDATE order SET order_total_cost = ? WHERE order_id = ?");) {
-      statement.setLong(1, t.getCustomerId());
-      statement.setLong(4, t.getOrderId());
+            .prepareStatement("UPDATE orders SET total_order_cost = ? WHERE order_id = ?");) {
+      statement.setDouble(1, t.getTotalOrderCost());
+      statement.setLong(2, t.getOrderId());
       statement.executeUpdate();
       return read(t.getOrderId());
     } catch (Exception e) {
@@ -114,7 +122,7 @@ public class OrderDAO implements Dao<Order> {
             connection.prepareStatement("DELETE FROM orders WHERE order_id = ?");) {
       statement.setLong(1, id);
       return statement.executeUpdate();
-    } catch (Exception e) {
+    } catch (SQLException e) {
       LOGGER.debug(e);
       LOGGER.error(e.getMessage());
     }

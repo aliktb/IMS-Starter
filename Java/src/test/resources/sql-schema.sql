@@ -1,5 +1,7 @@
 DROP TABLE IF EXISTS `customers`;
 DROP TABLE IF EXISTS `items`;
+DROP TABLE IF EXISTS `order_items`;
+DROP TABLE IF EXISTS `orders`;
 
 CREATE TABLE IF NOT EXISTS `customers` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -22,5 +24,14 @@ CREATE TABLE IF NOT EXISTS `order_items` (
 `customer_id` INT(11) NOT NULL,
 `item_id` INT(11) NOT NULL,
 PRIMARY KEY (`order_items_id`)
+
+);
+
+CREATE TABLE IF NOT EXISTS `orders`(
+
+`order_id` INT(11) NOT NULL AUTO_INCREMENT,
+`customer_id` INT(11) NOT NULL,
+`total_order_cost` FLOAT(11) NOT NULL,
+PRIMARY KEY (order_id)
 
 );
