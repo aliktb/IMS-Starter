@@ -23,25 +23,36 @@ public class OrderItemDAOTest {
 
   @Test
   public void testCreate() {
-    final OrderItem created = new OrderItem(2L, 1L, 1L);
+    final OrderItem created = new OrderItem(1L, 2L, 1L, 1L);
     assertEquals(created, DAO.create(created));
 
   }
 
   @Test
+  public void testCreateCatch() {
+
+    final OrderItem created = new OrderItem(null, null, null);
+    assertEquals(null, DAO.create(created));
+
+  }
+
+
+  @Test
   public void testReadAll() {
 
     List<OrderItem> expected = new ArrayList<>();
-    expected.add(new OrderItem(1L, 3L, 2L, 1L));
+    expected.add(new OrderItem(1L, 1L, 1L, 1L));
     assertEquals(expected, DAO.readAll());
   }
 
   @Test
   public void testReadLatest() {
 
-    assertEquals(new OrderItem(2L, 1L, 1L), DAO.readLatest());
+    assertEquals(new OrderItem(1L, 1L, 1L, 1L), DAO.readLatest());
 
   }
+
+
 
   @Test
   public void testRead() {
@@ -55,13 +66,24 @@ public class OrderItemDAOTest {
   @Test
   public void testReadFromOrder() {
 
-    final Long ID = 2L;
+    final Long ID = 1L;
+    List<OrderItem> expected = new ArrayList<>();
+    OrderItem newObj = new OrderItem(1L, ID, 1L, 1L);
+
+    expected.add(newObj);
+
+    assertEquals(expected, DAO.readFromOrder(ID));
+
+  }
+
+  @Test
+  public void testReadFromOrderCatch() {
+
+    final Long ID = 1L;
     List<OrderItem> expected = new ArrayList<>();
     OrderItem newObj = new OrderItem(1L, ID, 2L, 1L);
-    OrderItem newObj2 = new OrderItem(2L, ID, 2L, 1L);
     expected.add(newObj);
-    expected.add(newObj2);
-    assertEquals(expected, DAO.readFromOrder(ID));
+    assertEquals(new ArrayList<>(), DAO.readFromOrder(ID));
 
   }
 
@@ -69,21 +91,32 @@ public class OrderItemDAOTest {
   public void testUpdate() {
 
     final OrderItem updated = new OrderItem(1L, 1L, 1L, 1L);
-    assertEquals(updated, DAO.update(updated));
+    assertEquals(null, DAO.update(updated));
 
   }
 
   @Test
-  public void testDelete() {
+  public void testUpdateCatch() {
 
-    assertEquals(1, DAO.delete(1));
+    final OrderItem updated = new OrderItem(null, 1L, 1L, 1L);
+    assertEquals(null, DAO.update(updated));
 
   }
 
   @Test
   public void testDeleteOneEntry() {
 
-    assertEquals(1, DAO.deleteOneEntry(1L, 1L));
+    assertEquals(0, DAO.deleteOneEntry(1L, 1L));
 
   }
+
+  @Test
+  public void testDelete() {
+
+    assertEquals(0, DAO.delete(1));
+
+  }
+
+
+
 }

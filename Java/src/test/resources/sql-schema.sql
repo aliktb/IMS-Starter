@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `items` (
 
 CREATE TABLE IF NOT EXISTS `order_items` (
 
-`order_items_id` INT(11) AUTO_INCREMENT NOT NULL,
+`order_items_id` INT(11) NOT NULL AUTO_INCREMENT,
 `order_id` INT(11) NOT NULL,
 `customer_id` INT(11) NOT NULL,
 `item_id` INT(11) NOT NULL,

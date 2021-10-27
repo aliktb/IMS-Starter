@@ -122,4 +122,77 @@ public class OrderControllerTest {
 
 
   }
+
+  @Test
+  public void testUpdateAdd() {
+
+    final Long ORDER_ID = 1L;
+    final Long CUSTOMER_ID = 1L;
+
+
+    Mockito.when(utils.getLong()).thenReturn(CUSTOMER_ID, ORDER_ID);
+    Mockito.when(utils.getString()).thenReturn("add");
+
+    assertEquals(null, this.controller.update());
+
+    Mockito.verify(utils, Mockito.times(2)).getLong();
+    Mockito.verify(utils, Mockito.times(1)).getString();
+
+
+  }
+
+  @Test
+  public void testUpdateA() {
+
+    final Long ORDER_ID = 1L;
+    final Long CUSTOMER_ID = 1L;
+
+
+    Mockito.when(utils.getLong()).thenReturn(CUSTOMER_ID, ORDER_ID);
+    Mockito.when(utils.getString()).thenReturn("a");
+
+    assertEquals(null, this.controller.update());
+
+    Mockito.verify(utils, Mockito.times(2)).getLong();
+    Mockito.verify(utils, Mockito.times(1)).getString();
+
+
+  }
+
+  @Test
+  public void testUpdateRemove() {
+
+    final Long ORDER_ID = 1L;
+    final Long CUSTOMER_ID = 1L;
+
+
+    Mockito.when(utils.getLong()).thenReturn(CUSTOMER_ID, ORDER_ID);
+    Mockito.when(utils.getString()).thenReturn("remove");
+
+    assertEquals(null, this.controller.update());
+
+    Mockito.verify(utils, Mockito.times(2)).getLong();
+    Mockito.verify(utils, Mockito.times(1)).getString();
+
+
+  }
+
+  @Test
+  public void testUpdateRemoveR() {
+
+    final Long ORDER_ID = 1L;
+    final Long CUSTOMER_ID = 1L;
+
+
+    Mockito.when(utils.getLong()).thenReturn(CUSTOMER_ID, ORDER_ID);
+    Mockito.when(utils.getString()).thenReturn("r");
+
+    assertEquals(null, this.controller.update());
+
+    Mockito.verify(utils, Mockito.times(2)).getLong();
+    Mockito.verify(utils, Mockito.times(1)).getString();
+
+
+  }
+
 }
