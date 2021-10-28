@@ -50,14 +50,6 @@ Explain what these tests test, why and how to run them
 Unit testing through JUnit allows the application's source code to be tested in their smallest units possible, which are methods. Each method's output is verified against a predetermined result that is to be expected given any intial parameters or inputs have been selected. Mockito allows mocking objects in a test to check functionality of a method which relies on an instantiated object.
 ```
 
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
 ## Deployment
 
 Deployment can be acheived using the precompiled Fat JAR file and a MySQL database
