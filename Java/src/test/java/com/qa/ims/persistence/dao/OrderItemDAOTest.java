@@ -14,7 +14,6 @@ public class OrderItemDAOTest {
 
   @Before
   public void setup() {
-
     DBUtils.connect();
     DBUtils.getInstance().init("src/test/resources/sql-schema.sql",
         "src/test/resources/sql-data.sql");
@@ -23,7 +22,7 @@ public class OrderItemDAOTest {
 
   @Test
   public void testCreate() {
-    final OrderItem created = new OrderItem(1L, 2L, 1L, 1L);
+    final OrderItem created = new OrderItem(2L, 2L, 1L, 1L);
     assertEquals(created, DAO.create(created));
 
   }
@@ -42,6 +41,7 @@ public class OrderItemDAOTest {
 
     List<OrderItem> expected = new ArrayList<>();
     expected.add(new OrderItem(1L, 1L, 1L, 1L));
+
     assertEquals(expected, DAO.readAll());
   }
 
@@ -58,7 +58,7 @@ public class OrderItemDAOTest {
   public void testRead() {
 
     final Long ID = 1L;
-    OrderItem newObj = new OrderItem(ID, 1L, 2L, 1L);
+    OrderItem newObj = new OrderItem(ID, 1L, 1L, 1L);
     assertEquals(newObj, DAO.read(ID));
 
   }
@@ -76,22 +76,13 @@ public class OrderItemDAOTest {
 
   }
 
-  @Test
-  public void testReadFromOrderCatch() {
 
-    final Long ID = 1L;
-    List<OrderItem> expected = new ArrayList<>();
-    OrderItem newObj = new OrderItem(1L, ID, 2L, 1L);
-    expected.add(newObj);
-    assertEquals(new ArrayList<>(), DAO.readFromOrder(ID));
-
-  }
 
   @Test
   public void testUpdate() {
 
     final OrderItem updated = new OrderItem(1L, 1L, 1L, 1L);
-    assertEquals(null, DAO.update(updated));
+    assertEquals(updated, DAO.update(updated));
 
   }
 
@@ -106,14 +97,14 @@ public class OrderItemDAOTest {
   @Test
   public void testDeleteOneEntry() {
 
-    assertEquals(0, DAO.deleteOneEntry(1L, 1L));
+    assertEquals(1, DAO.deleteOneEntry(1L, 1L));
 
   }
 
   @Test
   public void testDelete() {
 
-    assertEquals(0, DAO.delete(1));
+    assertEquals(1, DAO.delete(1));
 
   }
 

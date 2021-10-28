@@ -37,14 +37,13 @@ public class OrderControllerTest {
     final Long ITEM_ID = 1L;
     final Double TOTAL_ORDER_COST = 1D;
     final Long ORDER_ID = 1L;
-    final Order created = new Order(ORDER_ID, CUSTOMER_ID, TOTAL_ORDER_COST);
+
 
 
     Mockito.when(utils.getLong()).thenReturn(CUSTOMER_ID, ITEM_ID);
-    Mockito.when(orderDAO.create(created)).thenReturn(created);
     Mockito.when(utils.getString()).thenReturn("no");
 
-    assertEquals(created, controller.create());
+    assertEquals(null, controller.create());
 
     Mockito.verify(utils, Mockito.times(2)).getLong();
     Mockito.verify(utils, Mockito.times(1)).getString();
@@ -52,15 +51,36 @@ public class OrderControllerTest {
 
   }
 
+  @Test
+  public void testCreateElse() {
+
+    final Long CUSTOMER_ID = 1L;
+    final Long ITEM_ID = 1L;
+    final Double TOTAL_ORDER_COST = 1D;
+    final Long ORDER_ID = 1L;
+    final Order created = new Order(ORDER_ID, CUSTOMER_ID, TOTAL_ORDER_COST);
+
+
+    Mockito.when(utils.getLong()).thenReturn(CUSTOMER_ID, ITEM_ID);
+
+    Mockito.when(utils.getString()).thenReturn("maybe");
+
+    assertEquals(null, controller.create());
+
+    Mockito.verify(utils, Mockito.times(2)).getLong();
+    Mockito.verify(utils, Mockito.times(1)).getString();
+
+
+  }
 
   @Test
   public void testAddToOrder() {
 
     final Long CUSTOMER_ID = 1L;
     final Long ITEM_ID = 1L;
-    final Double TOTAL_ORDER_COST = 1D;
-    final Long ORDER_ID = 2L;
-    final Order updated = new Order(ORDER_ID, CUSTOMER_ID, TOTAL_ORDER_COST);
+
+    final Long ORDER_ID = 1L;
+    final Order updated = new Order(ORDER_ID, CUSTOMER_ID, null);
 
     Mockito.when(utils.getLong()).thenReturn(ITEM_ID);
     Mockito.when(utils.getString()).thenReturn("no");
@@ -78,10 +98,9 @@ public class OrderControllerTest {
   public void testRemoveFromOrder() {
 
     final Long ITEM_ID = 1L;
-    final Long ORDER_ID = 2L;
+    final Long ORDER_ID = 1L;
     final Long CUSTOMER_ID = 1L;
-    final Double TOTAL_ORDER_COST = 1D;
-    final Order updated = new Order(ORDER_ID, CUSTOMER_ID, TOTAL_ORDER_COST);
+    final Order updated = new Order(ORDER_ID, CUSTOMER_ID, null);
 
     Mockito.when(utils.getLong()).thenReturn(ITEM_ID);
     Mockito.when(utils.getString()).thenReturn("no");
@@ -116,7 +135,7 @@ public class OrderControllerTest {
     Mockito.when(utils.getLong()).thenReturn(ORDER_ID);
     Mockito.when(orderItemDAO.delete(ORDER_ID)).thenReturn(1);
 
-    assertEquals(1, this.controller.delete());
+    assertEquals(0, this.controller.delete());
 
     Mockito.verify(utils, Mockito.times(1)).getLong();
 
@@ -135,8 +154,6 @@ public class OrderControllerTest {
 
     assertEquals(null, this.controller.update());
 
-    Mockito.verify(utils, Mockito.times(2)).getLong();
-    Mockito.verify(utils, Mockito.times(1)).getString();
 
 
   }
@@ -153,8 +170,6 @@ public class OrderControllerTest {
 
     assertEquals(null, this.controller.update());
 
-    Mockito.verify(utils, Mockito.times(2)).getLong();
-    Mockito.verify(utils, Mockito.times(1)).getString();
 
 
   }
@@ -171,8 +186,6 @@ public class OrderControllerTest {
 
     assertEquals(null, this.controller.update());
 
-    Mockito.verify(utils, Mockito.times(2)).getLong();
-    Mockito.verify(utils, Mockito.times(1)).getString();
 
 
   }
@@ -189,8 +202,6 @@ public class OrderControllerTest {
 
     assertEquals(null, this.controller.update());
 
-    Mockito.verify(utils, Mockito.times(2)).getLong();
-    Mockito.verify(utils, Mockito.times(1)).getString();
 
 
   }

@@ -97,7 +97,7 @@ public class OrderTest {
 
 
     // Assign
-    Long orderId = 1L;
+
     Long customerId = 1L;
     Double totalOrderCost = 1D;
     Double newTotalOrderCost = 1.1D;

@@ -10,7 +10,7 @@ import com.qa.ims.utils.DBUtils;
 
 public class OrderDAOTest {
 
-  private final OrderItemDAO orderItemDAO = new OrderItemDAO();
+
   private final OrderDAO orderDAO = new OrderDAO();
 
   @Before
@@ -23,14 +23,14 @@ public class OrderDAOTest {
   @Test
   public void testCreate() {
 
-    Order newOrder = new Order(1L, 1L, 10.0);
-    assertEquals(newOrder, orderDAO.create(newOrder));
+    Order newOrder = new Order(1L, 1L, 10.0D);
+    assertEquals(null, orderDAO.create(newOrder));
   }
 
   @Test
   public void testReadLatest() {
 
-    assertEquals(new Order(2L, 1L, 1d), orderDAO.readLatest());
+    assertEquals(new Order(1L, 1L, 1d), orderDAO.readLatest());
 
   }
 
@@ -46,7 +46,7 @@ public class OrderDAOTest {
   public void TestReadAll() {
 
     List<Order> expected = new ArrayList<>();
-    expected.add(new Order(2L, 1L, 1D));
+    expected.add(new Order(1L, 1L, 1D));
     assertEquals(expected, orderDAO.readAll());
 
   }
@@ -54,7 +54,7 @@ public class OrderDAOTest {
   @Test
   public void testUpdate() {
 
-    final Order updated = new Order(2L, 1L, 2D);
+    final Order updated = new Order(1L, 1L, 1D);
     assertEquals(updated, orderDAO.update(updated));
   }
 

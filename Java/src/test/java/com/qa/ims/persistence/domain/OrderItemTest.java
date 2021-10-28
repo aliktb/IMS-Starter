@@ -51,11 +51,11 @@ public class OrderItemTest {
     Long itemId = 1L;
 
     // Act
-    OrderItem newOrderItem = new OrderItem(1L, orderId, 2L, itemId);
+    OrderItem newOrderItem = new OrderItem(orderItemsId, orderId, 2L, itemId);
     newOrderItem.setCustomerId(customerId);
 
     // Assert
-    assertEquals(orderItemsId, newOrderItem.getCustomerId());
+    assertEquals(customerId, newOrderItem.getCustomerId());
 
   }
 
@@ -69,10 +69,10 @@ public class OrderItemTest {
     Long itemId = 1L;
 
     // Act
-    OrderItem newOrderItem = new OrderItem(1L, orderId, customerId, 2L);
+    OrderItem newOrderItem = new OrderItem(orderItemsId, orderId, customerId, 2L);
     newOrderItem.setItemId(itemId);
     // Assert
-    assertEquals(orderItemsId, newOrderItem.getItemId());
+    assertEquals(itemId, newOrderItem.getItemId());
 
   }
 
