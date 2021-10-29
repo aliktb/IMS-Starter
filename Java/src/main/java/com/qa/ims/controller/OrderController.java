@@ -138,7 +138,6 @@ public class OrderController implements CrudController<Order> {
         listOfItems.add(name);
 
 
-
       }
       LOGGER.info("");
       LOGGER.info("--------------------------------------------");

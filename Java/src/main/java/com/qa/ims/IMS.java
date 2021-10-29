@@ -89,25 +89,32 @@ public class IMS {
     } while (!changeDomain);
   }
 
-  public void doAction(CrudController<?> crudController, Action action) {
+  public int doAction(CrudController<?> crudController, Action action) {
+    int actionCheck = 0;
     switch (action) {
       case CREATE:
+        actionCheck = 1;
         crudController.create();
         break;
       case READ:
+        actionCheck = 2;
         crudController.readAll();
         break;
       case UPDATE:
+        actionCheck = 3;
         crudController.update();
         break;
       case DELETE:
+        actionCheck = 4;
         crudController.delete();
         break;
       case RETURN:
         break;
       default:
         break;
+
     }
+    return actionCheck;
   }
 
 }

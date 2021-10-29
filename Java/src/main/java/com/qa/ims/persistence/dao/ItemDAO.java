@@ -111,7 +111,7 @@ public class ItemDAO implements Dao<Item> {
   public Item update(Item t) {
     try (Connection connection = DBUtils.getInstance().getConnection();
         PreparedStatement statement = connection
-            .prepareStatement("UPDATE items SET item_name = ?, item_value = ? WHERE id = ?");) {
+            .prepareStatement("UPDATE items SET item_name = ? , item_value = ? WHERE id = ?");) {
       statement.setString(1, t.getItemName());
       statement.setDouble(2, t.getItemValue());
       statement.setLong(3, t.getId());
